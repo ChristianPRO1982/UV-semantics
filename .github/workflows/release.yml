@@ -16,6 +16,12 @@ jobs:
       UV_LINK_MODE: copy
 
     steps:
+      - name: Debug git refs
+        run: |
+          git rev-parse --abbrev-ref HEAD
+          git tag -l
+          git log --oneline -n 5
+
       - name: Checkout
         uses: actions/checkout@v4
         with:
