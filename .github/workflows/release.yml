@@ -16,35 +16,45 @@ jobs:
       UV_LINK_MODE: copy
 
     steps:
-      - name: Debug git refs
-        run: |
-          git rev-parse --abbrev-ref HEAD
-          git tag -l
-          git log --oneline -n 5
-
+      # 1) Toujours CHECKOUT en premier, avec tout l'historique
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0   # important: avoir l'historique pour PSR
+          fetch-depth: 0
+          persist-credentials: true
 
+      # 2) (optionnel mais utile) debug des refs — APRES checkout
+      - name: Debug git refs
+        run: |
+          pwd
+          ls -la
+          git rev-parse --abbrev-ref HEAD
+          git tag -l || true
+          git log --oneline -n 5 || true
+
+      # 3) Auteur Git (PSR va commit/tag)
       - name: Configure git author
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
+      # 4) Installer uv et l'ajouter au PATH
       - name: Install uv
         run: |
           curl -LsSf https://astral.sh/uv/install.sh | sh
           echo "$HOME/.local/bin" >> $GITHUB_PATH
           uv --version
 
+      # 5) Installer Python via uv (respecte .python-version si présent)
       - name: Install Python with uv
         run: |
           uv python install 3.11
           uv run python -V
 
+      # 6) Vérifier PSR
       - name: Show PSR version
         run: uv run semantic-release --version
 
+      # 7) Publish (version + build + tag + GitHub Release)
       - name: Release (publish)
         run: uv run semantic-release -vv publish
