@@ -1,3 +1,5 @@
+[![Latest Release](https://img.shields.io/github/release/ChristianPRO1982/UV-semantics.svg)](https://github.com/ChristianPRO1982/UV-semantics/releases/latest)
+
 # Répertoire pédagogique — usage d'UV et respect des standards PSR
 
 ## Objectif

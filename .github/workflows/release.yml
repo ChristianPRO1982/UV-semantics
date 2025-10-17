@@ -2,28 +2,29 @@ name: release
 
 on:
   push:
-    branches:
-      - main
-      - dev
+    branches: [ main, dev ]
   workflow_dispatch:
 
 permissions:
-  contents: write    # nécessaire pour créer tag + GitHub Release
+  contents: write
 
 jobs:
   release:
     runs-on: ubuntu-latest
-    concurrency:
-      group: release-${{ github.ref }}
-      cancel-in-progress: false
-
     env:
-      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}     # utilisé par python-semantic-release
-      UV_LINK_MODE: copy                        # build plus stable en CI
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      UV_LINK_MODE: copy
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # important: avoir l'historique pour PSR
+
+      - name: Configure git author
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
       - name: Install uv
         run: |
@@ -31,15 +32,13 @@ jobs:
           echo "$HOME/.local/bin" >> $GITHUB_PATH
           uv --version
 
-      - name: Install project Python
+      - name: Install Python with uv
         run: |
           uv python install 3.11
           uv run python -V
 
-      - name: Show semantic-release version
-        run: |
-          uv run semantic-release --version
+      - name: Show PSR version
+        run: uv run semantic-release --version
 
-      - name: Release (version + build + tag + GitHub Release)
-        run: |
-          uv run semantic-release -v publish
+      - name: Release (publish)
+        run: uv run semantic-release -vv publish
