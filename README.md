@@ -20,3 +20,16 @@
 - Respecter les recommandations PSR applicables (autoloading, style, namespaces, etc.).
 - Ajouter commentaires/documentation et tests unitaires pour toute contribution.
 - Suivre les bonnes pratiques de nommage et structuration des fichiers pour faciliter l'autoloading.
+
+# TIPS et snippets
+pour initier les tags dans GitHub
+```
+# 1) S'assurer d'avoir les tags (même si pour l'instant il n'y en a pas)
+git fetch --tags
+
+# 2) Créer un tag d’ancrage initial (annoté)
+git tag -a v0.0.0 -m "chore: bootstrap"
+
+# 3) Pousser ce tag vers GitHub
+git push origin v0.0.0
+```
