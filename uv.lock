@@ -140,7 +140,7 @@ wheels = [
 
 [[package]]
 name = "di03-test-de-uv-et-semantics"
-version = "0.0.0"
+version = "1.0.0rc1"
 source = { virtual = "." }
 
 [package.dev-dependencies]

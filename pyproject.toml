@@ -1,6 +1,6 @@
 [project]
 name = "di03-test-de-uv-et-semantics"
-version = "0.0.0"
+version = "1.0.0-rc.1"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.11"
