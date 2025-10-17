@@ -1,0 +1,45 @@
+name: release
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+  workflow_dispatch:
+
+permissions:
+  contents: write    # nécessaire pour créer tag + GitHub Release
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: release-${{ github.ref }}
+      cancel-in-progress: false
+
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}     # utilisé par python-semantic-release
+      UV_LINK_MODE: copy                        # build plus stable en CI
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        run: |
+          curl -LsSf https://astral.sh/uv/install.sh | sh
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+          uv --version
+
+      - name: Install project Python
+        run: |
+          uv python install 3.11
+          uv run python -V
+
+      - name: Show semantic-release version
+        run: |
+          uv run semantic-release --version
+
+      - name: Release (version + build + tag + GitHub Release)
+        run: |
+          uv run semantic-release -v publish
