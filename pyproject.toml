@@ -1,6 +1,6 @@
 [project]
 name = "di03-test-de-uv-et-semantics"
-version = "0.1.0"
+version = "0.0.0"
 description = "projet pour apprendre UV"
 readme = "README.md"
 authors = [
@@ -28,10 +28,10 @@ dev = [
 ]
 
 [tool.semantic_release]
-version_source = "tag"
-commit_parser = "angular"
+commit_parser = "conventional"
+version_toml = ["pyproject.toml:project.version"]
+allow_zero_version = true
 changelog_file = "CHANGELOG.md"
-upload_to_pypi = false
 branch = "main"
 build_command = "uv build"
 
