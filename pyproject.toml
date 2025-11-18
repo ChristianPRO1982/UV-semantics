@@ -1,0 +1,7 @@
+[project]
+name = "di03-test-de-uv-et-semantics"
+version = "0.1.0"
+description = "projet pour apprendre UV"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = []

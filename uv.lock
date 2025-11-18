@@ -1,0 +1,8 @@
+version = 1
+revision = 3
+requires-python = ">=3.11"
+
+[[package]]
+name = "di03-test-de-uv-et-semantics"
+version = "0.1.0"
+source = { virtual = "." }
