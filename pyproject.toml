@@ -3,5 +3,21 @@ name = "di03-test-de-uv-et-semantics"
 version = "0.1.0"
 description = "projet pour apprendre UV"
 readme = "README.md"
+authors = [
+    { name = "Christian Martiny", email = "email@ema.il" }
+]
 requires-python = ">=3.11"
-dependencies = []
+dependencies = [
+    "pytest>=9.0.1",
+]
+
+[project.scripts]
+di03-test-de-uv-et-semantics = "di03_test_de_uv_et_semantics:main"
+
+[build-system]
+requires = ["uv_build>=0.9.3,<0.10.0"]
+build-backend = "uv_build"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
